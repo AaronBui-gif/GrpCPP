@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/huybuithanh/CLionProjects/GrpCPP/main.cpp
+main.h
+/Users/huybuithanh/CLionProjects/GrpCPP/main.h
+iostream
+-
+fstream
+-
+vector
+-
+algorithm
+-
+iterator
+-
+sstream
+-
+
+/Users/huybuithanh/CLionProjects/GrpCPP/main.h
+
