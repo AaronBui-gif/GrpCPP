@@ -9,7 +9,6 @@
 #include <vector>
 #include <algorithm>    // copy
 #include <iterator>     // ostream_operator
-#include <sstream>
 
 using namespace std;
 
@@ -27,66 +26,81 @@ int main() {
 /*** FUNCTION to read a file ***/
 void read_file(){
     // Declare variables.
+    int index_x = 0;
+    int index_y = 0;
     string line;
+    string word;
+    int a;
+    int b;
+    string word2;
     string intermediate;
-    vector<string>tokens(50000);
-    vector<int> int_tokens(50000);
-    int arr_x[50000];
-    int arr_y[50000];
+    vector<string>tokens(500);
+    vector<int> int_tokens(500);
+    char word_x;
+    int arr_x[20];
+    int arr_y[500];
     int count = 0;
-    int x = 0;
+
     int int_x = 0;
-    int y = 0;
+
     int int_y = 0;
-    ifstream myfile("/Users/huybuithanh/CLionProjects/GrpAssn1/Data/data1.csv");
+//    for (int i = 0; i < 3; i++){
+//        cout << arr_x[i] << endl;
+//    }
+    ifstream myfile("/Users/huybuithanh/CLionProjects/GrpCPP/Data/data4.csv");
     // If file is found then open it
     if (myfile.is_open()) {
         // Reading file until End of File.
-        while (!myfile.eof()) {
-            // Reading line in file.
-            while(getline(myfile, line)) {
-                stringstream check1(line);
-                while(getline(check1, intermediate, ','))
-                {
-                    tokens.push_back(intermediate);
-                }
+        while (!(myfile.eof())) {
+
+            myfile >> word >> word2;
+            cout << "word" << endl;
+            cout << word << endl;
+            cout << "word2" << endl;
+            cout << word2 << endl;
+            int x = stoi(word);
+            cout << "This is x" << endl;
+            cout << x << endl;
+            int y = stoi(word2);
+            cout << "This is y" << endl;
+            cout << y << endl;
+            while (count == 0){
+                cout << "This is element x: " << endl;
+                arr_x[index_x] = x;
+                cout << arr_x[index_x] << endl;
+                cout << "index x" << endl;
+                cout << index_x << endl;
+                x = 0;
+                index_x++;
+                count++;
+//                cout << "This is count " << endl;
+//                cout << count << endl;
+                cout << "index x" << endl;
+                cout << index_x << endl;
             }
+            while (count == 1){
+                cout << "This is element y: " << endl;
+                arr_y[index_y] = y;
+                cout << arr_y[index_y] << endl;
+                cout << "index y" << endl;
+                cout << index_y << endl;
+                index_y++;
+                count = 0;
+
+            }
+        }
             myfile.close(); // Closing File.
-        }
-        for (int i=0; i< 50000; i++)
-        {
-            int num = atoi(tokens.at(i).c_str());
-            int_tokens.push_back(num);
-        }
-        for(int i = 0; i < 1000; i++){
-            if(i % 2 == 0){
-                arr_x[x] = int_tokens[i];
-                x++;
-            } else if (i % 2 == 1){
-                arr_y[y] = int_tokens[i];
-                y++;
+            cout << "This is array x" << endl;
+            for (int i = 0; i < 20; i++){
+                cout << arr_x[i] << endl;
             }
-        }
-//        for(int i = 0; i < tokens.size(); i++) {
-//            cout << tokens[i] << '\n';
-//        }
-        for (int i = 0; i < 1000; i++){
-            cout << arr_x[i] << endl;
-        }
+
+            cout << "This is array y" << endl;
+            for (int i = 0; i < 3; i++){
+                cout << arr_y[i] << endl;
+            }
     }
     else cout << "Unable to open file";
-}
-
-/*** FUNCTION to split string into token ***/
-void input_token(string line){
-    string intermediate;
-    stringstream check1(line);
-    vector<string>(tokens);
-    while(getline(check1, intermediate, ','))
-    {
-        tokens.push_back(intermediate);
-    }
-
 }
 
 /*** FUNCTION to sort array ***/
