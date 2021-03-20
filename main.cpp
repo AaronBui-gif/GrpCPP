@@ -4,6 +4,7 @@
 
 #include "main.h"
 
+/*** Calling Libraries ***/
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -14,13 +15,14 @@
 
 using namespace std;
 
-// Calling functions.
+/*** Calling functions. ***/
 vector<string> read_file(string argument);
 vector<int> string_to_int_vector(vector<string> datas);
 int* fillArr(vector<int> int_datas);
 int *input_array();
 void bucketsort(int arr[], int n);
 
+/*** MAIN FUNCTION ***/
 int main(int argc, char* argv[]) {
     /*** Declare variables ***/
     vector<string> datas;
