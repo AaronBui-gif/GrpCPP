@@ -44,7 +44,8 @@ int main(int argc, char* argv[]) {
     for (int i = 0; i < datas.size(); ++i) {
         cout << datas[i] << endl;
     }
-
+    // 1
+    // 2
     /*** Convert vector<string> to vector<int> ***/
     int_datas = string_to_int_vector(datas);
     /*** PRINT OUT datas in vector<int> ***/
@@ -56,12 +57,17 @@ int main(int argc, char* argv[]) {
     arr_x = fillArrX(int_datas);
     arr_y = fillArrY(int_datas);
     size_t sizeArrX = sizeof(&arr_x)/ sizeof(arr_x[0]);
+    size_t sizeArrY = sizeof(&arr_y)/ sizeof(arr_y[0]);
     /*** Print out elements in the array ***/
     cout << "Printing elements in array x" << endl;
     for (int i = 0; i < sizeArrX; ++i) {
         cout << arr_x[i] << " ";
     }
     cout << endl;
+
+    /*** Sort array ***/
+    bucketsort(arr_x, sizeArrX);
+    bucketsort(arr_y, sizeArrY);
     return 0;
 }
 
@@ -81,7 +87,7 @@ vector<string> read_file(string argument){
         // Reading file until End of File.
         // Get words in one line
         while (getline(myfile, word, ',')) {
-                cout << word << endl;
+                cout << word << endl; // 1 2
                 stringstream ss(word);
                 string single_word;
                 // Get single word
