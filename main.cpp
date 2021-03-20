@@ -79,18 +79,22 @@ vector<string> read_file(string argument){
     // If file is found then open it
     if (myfile.is_open()) {
         // Reading file until End of File.
+        // Get words in one line
         while (getline(myfile, word, ',')) {
                 cout << word << endl;
                 stringstream ss(word);
                 string single_word;
+                // Get single word
                 while(getline(ss, single_word, ' ')) {
-                    separate_word.push_back(single_word);
+                    separate_word.push_back(single_word); // Put them in the vector<string>
                 }
             }
     }
+    // If File is not found
     else cout << "Unable to open file";
     myfile.close(); // Closing File.
 
+    // return vector<string>
     return separate_word;
 }
 
