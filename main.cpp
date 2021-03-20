@@ -4,111 +4,123 @@
 
 #include "main.h"
 
-#include <iostream>     // cout, endl
-#include <fstream>      // fstream
+#include <iostream>
+#include <fstream>
 #include <vector>
+#include <string>
 #include <algorithm>    // copy
 #include <iterator>     // ostream_operator
+#include <sstream>
 
 using namespace std;
 
 // Calling functions.
-void read_file();
-void input_token(string line);
-void input_arr();
+vector<string> read_file(string argument);
+vector<int> string_to_int_vector(vector<string> datas);
+int* fillArr(vector<int> int_datas);
+int *input_array();
 void bucketsort(int arr[], int n);
 
-int main() {
-    read_file();
+int main(int argc, char* argv[]) {
+    /*** Declare variables ***/
+    vector<string> datas;
+    vector<int> int_datas;
+    int SIZE = int_datas.size() / 2;
+    int *arr_x;
+    /*** If user does not input 2 arguments ***/
+    if (argc != 2){
+        cout << "Format can only contain two arguments" << endl;
+        exit(1);
+    }
+    // Convert argv to string
+    string second_argument = argv[1];
+    vector<string> arguments(argv, argv +argc);
+    // Set datas contains values in the file.
+    datas = read_file(second_argument);
+    /*** PRINT OUT datas in vector<string> ***/
+    for (int i = 0; i < datas.size(); ++i) {
+        cout << datas[i] << endl;
+    }
+
+    /*** Convert vector<string> to vector<int> ***/
+    int_datas = string_to_int_vector(datas);
+    /*** PRINT OUT datas in vector<int> ***/
+    for (int i = 0; i < datas.size(); ++i) {
+        cout << int_datas[i] << endl;
+    }
+
+    /*** Input values to array ***/
+    arr_x = fillArr(int_datas);
+
+    size_t sizeArrX = sizeof(&arr_x)/ sizeof(arr_x[0]);
+    /*** Print out elements in the array ***/
+    cout << "Printing elements in array x" << endl;
+    for (int i = 0; i < sizeArrX; ++i) {
+        cout << arr_x[i] << " ";
+    }
+    cout << endl;
     return 0;
 }
 
 /*** FUNCTION to read a file ***/
-void read_file(){
+vector<string> read_file(string argument){
     // Declare variables.
-    int index_x = 0;
-    int index_y = 0;
     string line;
     string word;
-    int a;
-    int b;
     string word2;
     string intermediate;
-    vector<string>tokens(500);
-    vector<int> int_tokens(500);
-    char word_x;
-    int arr_x[20];
-    int arr_y[500];
-    int count = 0;
+    vector<string> separate_word;
 
-    int int_x = 0;
-
-    int int_y = 0;
-//    for (int i = 0; i < 3; i++){
-//        cout << arr_x[i] << endl;
-//    }
-    ifstream myfile("/Users/huybuithanh/CLionProjects/GrpCPP/Data/data4.csv");
+    // Reading file
+    ifstream myfile("/Users/huybuithanh/CLionProjects/GrpCPP/Data/" + argument );
     // If file is found then open it
     if (myfile.is_open()) {
         // Reading file until End of File.
-        while (!(myfile.eof())) {
-
-            myfile >> word >> word2;
-            cout << "word" << endl;
-            cout << word << endl;
-            cout << "word2" << endl;
-            cout << word2 << endl;
-            int x = stoi(word);
-            cout << "This is x" << endl;
-            cout << x << endl;
-            int y = stoi(word2);
-            cout << "This is y" << endl;
-            cout << y << endl;
-            while (count == 0){
-                cout << "This is element x: " << endl;
-                arr_x[index_x] = x;
-                cout << arr_x[index_x] << endl;
-                cout << "index x" << endl;
-                cout << index_x << endl;
-                x = 0;
-                index_x++;
-                count++;
-//                cout << "This is count " << endl;
-//                cout << count << endl;
-                cout << "index x" << endl;
-                cout << index_x << endl;
-            }
-            while (count == 1){
-                cout << "This is element y: " << endl;
-                arr_y[index_y] = y;
-                cout << arr_y[index_y] << endl;
-                cout << "index y" << endl;
-                cout << index_y << endl;
-                index_y++;
-                count = 0;
-
-            }
-        }
-            myfile.close(); // Closing File.
-            cout << "This is array x" << endl;
-            for (int i = 0; i < 20; i++){
-                cout << arr_x[i] << endl;
-            }
-
-            cout << "This is array y" << endl;
-            for (int i = 0; i < 3; i++){
-                cout << arr_y[i] << endl;
+        while (getline(myfile, word, ',')) {
+                cout << word << endl;
+                stringstream ss(word);
+                string single_word;
+                while(getline(ss, single_word, ' ')) {
+                    separate_word.push_back(single_word);
+                }
             }
     }
     else cout << "Unable to open file";
+    myfile.close(); // Closing File.
+
+    return separate_word;
 }
 
+/*** FUNCTION to convert vector<string> to vector<int> ***/
+vector<int> string_to_int_vector(vector<string> datas) {
+    vector<int> numbers;
+    for (int i = 0; i < datas.size(); ++i) {
+        int num = atoi(datas.at(i).c_str());
+        numbers.push_back(num);
+    }
+
+    return numbers;
+}
+/*** FUNCTION to input vector<int> to array contains numbers ***/
+int * fillArr(vector<int> int_datas){
+    int temp_arr[int_datas.size() / 2];
+    for (int i = 0; i < int_datas.size(); ++i) {
+        if (i % 2 == 0){
+            temp_arr[i] = int_datas[i];
+        }
+        else if (i % 2 == 1){
+            temp_arr[i] = int_datas[i];
+        }
+    }
+
+    return temp_arr;
+}
 /*** FUNCTION to sort array ***/
-void bucketSort(float arr[], int n)
+void bucketSort(int arr[], int n)
 {
 
     // 1) Create n empty buckets
-    vector<float> b[n];
+    vector<int> b[n];
 
     // 2) Put array elements
     // in different buckets
