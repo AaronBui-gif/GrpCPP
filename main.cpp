@@ -18,7 +18,8 @@ using namespace std;
 /*** Calling functions. ***/
 vector<string> read_file(string argument);
 vector<int> string_to_int_vector(vector<string> datas);
-int* fillArr(vector<int> int_datas);
+int* fillArrX(vector<int> int_datas);
+int* fillArrY(vector<int> int_datas);
 int *input_array();
 void bucketsort(int arr[], int n);
 
@@ -27,8 +28,8 @@ int main(int argc, char* argv[]) {
     /*** Declare variables ***/
     vector<string> datas;
     vector<int> int_datas;
-    int SIZE = int_datas.size() / 2;
     int *arr_x;
+    int *arr_y;
     /*** If user does not input 2 arguments ***/
     if (argc != 2){
         cout << "Format can only contain two arguments" << endl;
@@ -52,8 +53,8 @@ int main(int argc, char* argv[]) {
     }
 
     /*** Input values to array ***/
-    arr_x = fillArr(int_datas);
-
+    arr_x = fillArrX(int_datas);
+    arr_y = fillArrY(int_datas);
     size_t sizeArrX = sizeof(&arr_x)/ sizeof(arr_x[0]);
     /*** Print out elements in the array ***/
     cout << "Printing elements in array x" << endl;
@@ -103,20 +104,32 @@ vector<int> string_to_int_vector(vector<string> datas) {
 
     return numbers;
 }
-/*** FUNCTION to input vector<int> to array contains numbers ***/
-int * fillArr(vector<int> int_datas){
+/*** FUNCTION to input vector<int> to array x contains numbers ***/
+int * fillArrX(vector<int> int_datas){
     int temp_arr[int_datas.size() / 2];
     for (int i = 0; i < int_datas.size(); ++i) {
         if (i % 2 == 0){
             temp_arr[i] = int_datas[i];
         }
-        else if (i % 2 == 1){
-            temp_arr[i] = int_datas[i];
-        }
+
     }
 
     return temp_arr;
 }
+
+/*** FUNCTION to input vector<int> to array y contains numbers ***/
+int * fillArrY(vector<int> int_datas){
+    int temp_arr[int_datas.size() / 2];
+    for (int i = 0; i < int_datas.size(); ++i) {
+        if (i % 2 == 1){
+            temp_arr[i] = int_datas[i];
+        }
+
+    }
+
+    return temp_arr;
+}
+
 /*** FUNCTION to sort array ***/
 void bucketSort(int arr[], int n)
 {
