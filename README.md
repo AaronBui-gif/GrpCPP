@@ -7,7 +7,7 @@ RMIT - Royal Melbourne Institute of Technology
 
 -------------------------------------------------------------------------------------------------------------------
                                             Using GitHub
-Step 1: Create branch
+Step 1: Create branch on github.com or in IDE
     1.1: Click on Code (Next to Issue)
     1.2: Click on main 
     1.3: Write down name of the branch
