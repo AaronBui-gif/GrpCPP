@@ -13,15 +13,9 @@ iostream
 -
 fstream
 -
-vector
+string.h
 -
-string
--
-algorithm
--
-iterator
--
-sstream
+math.h
 -
 
 /Users/huybuithanh/CLionProjects/GrpCPP/main.h
