@@ -18,6 +18,7 @@ int* getArrayY(string argument, int arr_y[]);
 void skip_line(istream &is, size_t size, char delim);
 string get_separate_word(string str);
 string get_separate_word2(string str);
+void countSort(int arr[], int size);
 
 /*** MAIN FUNCTION ***/
 int main(int argc, char* argv[]) {
@@ -37,17 +38,29 @@ int main(int argc, char* argv[]) {
     int *arrayX = getArrayX(second_argument, arrX);
     int *arrayY = getArrayY(second_argument, arrY);
     cout << "Array X: " << endl;
-    for (int i = 0; i < 50000; ++i) {
+    for (int i = 0; i < 10; ++i) {
         cout << *(arrayX + i) << endl;
     }
 
     cout << "Array Y: " << endl;
-    for (int i = 0; i < 50000; ++i) {
+    for (int i = 0; i < 10; ++i) {
         cout << *(arrayY + i) << endl;
     }
 
     /*** Sort array ***/
+    countSort(arrayX, 10);
+    countSort(arrayY, 10);
 
+    /*** Print out after sort array ***/
+    cout << "Array X sort: " << endl;
+    for (int i = 0; i < 10; ++i) {
+        cout << *(arrayX + i) << endl;
+    }
+
+    cout << "Array Y sort: " << endl;
+    for (int i = 0; i < 10; ++i) {
+        cout << *(arrayY + i) << endl;
+    }
     return 0;
 }
 
@@ -60,10 +73,7 @@ int* getArrayX(string argument, int arr_x[50000]){
     string intermediate;
     string single_word = "";
     string single_word2 = "";
-    int arr_y[50001];
     int index_x = 0;
-    int index_y = 0;
-    int count = 0;
     string word3 = "";
     // Reading file
     ifstream myfile("/Users/huybuithanh/CLionProjects/GrpCPP/Data/" + argument );
@@ -75,8 +85,7 @@ int* getArrayX(string argument, int arr_x[50000]){
         // Get words in one line
         while (getline(myfile, word, '\n')) {
 
-            single_word = get_separate_word(word);
-            single_word2 = get_separate_word2(word);
+            single_word = get_separate_word(word)
             int num = stoi(single_word);
 
             arr_x[index_x] = num;
@@ -168,27 +177,47 @@ string get_separate_word2 (string str){
 }
 
 /*** FUNCTION to sort array ***/
-//void bucketSort(int arr[], int n)
-//{
-//
-//    // 1) Create n empty buckets
-//    vector<int> b[n];
-//
-//    // 2) Put array elements
-//    // in different buckets
-//    for (int i = 0; i < n; i++) {
-//        int bi = n * arr[i]; // Index in bucket
-//        b[bi].push_back(arr[i]);
-//    }
-//
-//    // 3) Sort individual buckets
-//    for (int i = 0; i < n; i++)
-//        sort(b[i].begin(), b[i].end());
-//
-//    // 4) Concatenate all buckets into arr[]
-//    int index = 0;
-//    for (int i = 0; i < n; i++)
-//        for (int j = 0; j < b[i].size(); j++)
-//            arr[index++] = b[i][j];
-//}
+/*** Time complexity: O(n + k) ***/
+void countSort(int array[], int size) {
+    // The size of count must be at least the (max+1) but
+    // we cannot assign declare it as int count(max+1) in C++ as
+    // it does not support dynamic memory allocation.
+    // So, its size is provided statically.
+    int output[50000];
+    int count[50000];
+    int max = array[0];
+
+    // Find the largest element of the array
+    for (int i = 1; i < size; i++) {
+        if (array[i] > max)
+            max = array[i];
+    }
+
+    // Initialize count array with all zeros.
+    for (int i = 0; i <= max; ++i) {
+        count[i] = 0;
+    }
+
+    // Store the count of each element
+    for (int i = 0; i < size; i++) {
+        count[array[i]]++;
+    }
+
+    // Store the cummulative count of each array
+    for (int i = 1; i <= max; i++) {
+        count[i] += count[i - 1];
+    }
+
+    // Find the index of each element of the original array in count array, and
+    // place the elements in output array
+    for (int i = size - 1; i >= 0; i--) {
+        output[count[array[i]] - 1] = array[i];
+        count[array[i]]--;
+    }
+
+    // Copy the sorted elements into original array
+    for (int i = 0; i < size; i++) {
+        array[i] = output[i];
+    }
+}
 
