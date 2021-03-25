@@ -2,7 +2,6 @@
 // Created by Huy Bui Thanh on 16/03/2021.
 //
 
-#include "main.h"
 
 /*** Calling Libraries ***/
 #include <iostream>
