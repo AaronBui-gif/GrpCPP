@@ -183,20 +183,19 @@ string get_separate_word2 (string str){
 
 /*** FUNCTION to sort array ***/
 /*** Time complexity: O(n + k) ***/
-void countSort(int array[], int size) {
-    // The size of count must be at least the (max+1) but
-    // we cannot assign declare it as int count(max+1) in C++ as
-    // it does not support dynamic memory allocation.
-    // So, its size is provided statically.
-    int output[50000];
-
-    int max = array[0];
+void countSort(int arr[], int size) {
+    // Size of index array has to be same as the size of arr[] to contains all datas.
+    int index[50000];
+    // Set maximum as the first element in the array.
+    int max = arr[0];
 
     // Find the largest element of the array
     for (int i = 1; i < size; i++) {
-        if (array[i] > max)
-            max = array[i];
+        if (arr[i] > max)
+            max = arr[i];
     }
+
+    // Size of the count array has to be bigger than the maximum element by one.
     int count[max + 1];
     // Initialize count array with all zeros.
     for (int i = 0; i <= max; ++i) {
@@ -205,7 +204,7 @@ void countSort(int array[], int size) {
 
     // Store the count of each element
     for (int i = 0; i < size; i++) {
-        count[array[i]]++;
+        count[arr[i]]++;
     }
 
     // Store the cummulative count of each array
@@ -214,15 +213,15 @@ void countSort(int array[], int size) {
     }
 
     // Find the index of each element of the original array in count array, and
-    // place the elements in output array
+    // place the elements in index array
     for (int i = size - 1; i >= 0; i--) {
-        output[count[array[i]] - 1] = array[i];
-        count[array[i]]--;
+        index[count[arr[i]] - 1] = arr[i];
+        count[arr[i]]--;
     }
 
     // Copy the sorted elements into original array
     for (int i = 0; i < size; i++) {
-        array[i] = output[i];
+        arr[i] = index[i];
     }
 }
 
