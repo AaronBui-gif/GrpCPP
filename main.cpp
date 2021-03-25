@@ -26,6 +26,7 @@ int main(int argc, char* argv[]) {
     string datas;
     int arrX[50000];
     int arrY[50000];
+
     /*** If user does not input 2 arguments ***/
     if (argc != 2){
         cout << "Format can only contain two arguments" << endl;
@@ -37,29 +38,34 @@ int main(int argc, char* argv[]) {
     // Set datas contains values in the file.
     int *arrayX = getArrayX(second_argument, arrX);
     int *arrayY = getArrayY(second_argument, arrY);
-    cout << "Array X: " << endl;
-    for (int i = 0; i < 10; ++i) {
-        cout << *(arrayX + i) << endl;
+    cout << "---------------Array X: -------------------" << endl;
+    for (int i = 0; i < 50000; ++i) {
+//        cout << *(arrayX + i) << endl;
+        arrX[i] = *(arrayX + i);
+        cout << arrX[i] << endl;
+        cout << i << endl;
     }
 
-    cout << "Array Y: " << endl;
-    for (int i = 0; i < 10; ++i) {
-        cout << *(arrayY + i) << endl;
+    cout << "---------------Array Y: --------------------" << endl;
+    for (int i = 0; i < 50000; ++i) {
+//        cout << *(arrayY + i) << endl;
+        arrY[i] = *(arrayY + i);
+        cout << arrY[i] << endl;
     }
 
     /*** Sort array ***/
-    countSort(arrayX, 10);
-    countSort(arrayY, 10);
+    countSort(arrX, 50000);
+    countSort(arrY, 50000);
 
     /*** Print out after sort array ***/
     cout << "Array X sort: " << endl;
-    for (int i = 0; i < 10; ++i) {
-        cout << *(arrayX + i) << endl;
+    for (int i = 0; i < 50000; ++i) {
+        cout << arrX[i] << endl;
     }
 
     cout << "Array Y sort: " << endl;
-    for (int i = 0; i < 10; ++i) {
-        cout << *(arrayY + i) << endl;
+    for (int i = 0; i < 50000; ++i) {
+        cout << arrY[i] << endl;
     }
     return 0;
 }
@@ -85,7 +91,7 @@ int* getArrayX(string argument, int arr_x[50000]){
         // Get words in one line
         while (getline(myfile, word, '\n')) {
 
-            single_word = get_separate_word(word)
+            single_word = get_separate_word(word);
             int num = stoi(single_word);
 
             arr_x[index_x] = num;
@@ -99,7 +105,7 @@ int* getArrayX(string argument, int arr_x[50000]){
     return arr_x;
 }
 
-int* getArrayY(string argument, int arr_y[]){
+int* getArrayY(string argument, int arr_y[50000]){
     // Declare variables.
     string line;
     string word;
@@ -184,7 +190,7 @@ void countSort(int array[], int size) {
     // it does not support dynamic memory allocation.
     // So, its size is provided statically.
     int output[50000];
-    int count[50000];
+
     int max = array[0];
 
     // Find the largest element of the array
@@ -192,7 +198,7 @@ void countSort(int array[], int size) {
         if (array[i] > max)
             max = array[i];
     }
-
+    int count[max + 1];
     // Initialize count array with all zeros.
     for (int i = 0; i <= max; ++i) {
         count[i] = 0;
