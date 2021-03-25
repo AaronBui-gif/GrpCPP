@@ -2,7 +2,6 @@
 // Created by Huy Bui Thanh on 16/03/2021.
 //
 
-
 /*** Calling Libraries ***/
 #include <iostream>
 #include <fstream>
@@ -31,6 +30,7 @@ int main(int argc, char* argv[]) {
         cout << "Format can only contain two arguments" << endl;
         exit(1);
     }
+
     // Convert argv to string
     string second_argument = argv[1];
 
@@ -39,15 +39,12 @@ int main(int argc, char* argv[]) {
     int *arrayY = getArrayY(second_argument, arrY);
     cout << "---------------Array X: -------------------" << endl;
     for (int i = 0; i < 50000; ++i) {
-//        cout << *(arrayX + i) << endl;
         arrX[i] = *(arrayX + i);
         cout << arrX[i] << endl;
-        cout << i << endl;
     }
 
-    cout << "---------------Array Y: --------------------" << endl;
+    cout << "---------------Array Y: -------------------" << endl;
     for (int i = 0; i < 50000; ++i) {
-//        cout << *(arrayY + i) << endl;
         arrY[i] = *(arrayY + i);
         cout << arrY[i] << endl;
     }
@@ -57,12 +54,12 @@ int main(int argc, char* argv[]) {
     countSort(arrY, 50000);
 
     /*** Print out after sort array ***/
-    cout << "Array X sort: " << endl;
+    cout << "---------------Array X sort: -------------------" << endl;
     for (int i = 0; i < 50000; ++i) {
         cout << arrX[i] << endl;
     }
 
-    cout << "Array Y sort: " << endl;
+    cout << "---------------Array Y sort: -------------------" << endl;
     for (int i = 0; i < 50000; ++i) {
         cout << arrY[i] << endl;
     }
@@ -80,23 +77,24 @@ int* getArrayX(string argument, int arr_x[50000]){
     string single_word2 = "";
     int index_x = 0;
     string word3 = "";
+
     // Reading file
     ifstream myfile("/Users/huybuithanh/CLionProjects/GrpCPP/Data/" + argument );
-    // If file is found then open it
 
+    // If file is found then open it
     if (myfile.is_open()) {
-        // Reading file until End of File.
+        // SKip on line in the csv file (skip "x,y")
         skip_line(myfile, 1, '\n');
         // Get words in one line
         while (getline(myfile, word, '\n')) {
 
             single_word = get_separate_word(word);
             int num = stoi(single_word);
-
             arr_x[index_x] = num;
             index_x++;
             }
     }
+
     // If File is not found
     else cout << "Unable to open file";
     myfile.close(); // Closing File.
@@ -104,6 +102,7 @@ int* getArrayX(string argument, int arr_x[50000]){
     return arr_x;
 }
 
+/*** FUNCTION to input datas y in the array ***/
 int* getArrayY(string argument, int arr_y[50000]){
     // Declare variables.
     string line;
@@ -116,22 +115,20 @@ int* getArrayY(string argument, int arr_y[50000]){
     string word3 = "";
     // Reading file
     ifstream myfile("/Users/huybuithanh/CLionProjects/GrpCPP/Data/" + argument );
-    // If file is found then open it
 
+    // If file is found then open it
     if (myfile.is_open()) {
-        // Reading file until End of File.
+        // Skip one line in csv file (skip "x,y")
         skip_line(myfile, 1, '\n');
         // Get words in one line
         while (getline(myfile, word, '\n')) {
             single_word2 = get_separate_word2(word);
             int num2 = stoi(single_word2);
-
             arr_y[index_y] = num2;
             index_y++;
-
         }
     }
-        // If File is not found
+    // If File is not found
     else cout << "Unable to open file";
     myfile.close(); // Closing File.
 
@@ -224,4 +221,3 @@ void countSort(int arr[], int size) {
         arr[i] = index[i];
     }
 }
-
