@@ -3,10 +3,11 @@
 //
 
 /*** Calling Libraries ***/
+#include "my_func.hpp"
 #include <iostream>
 #include <fstream>
-#include <string.h>
-#include <math.h>
+#include <cstring>
+#include <cmath>
 
 using namespace std;
 
@@ -17,6 +18,10 @@ void skip_line(istream &is, size_t size, char delim);
 string get_separate_word(string str);
 string get_separate_word2(string str);
 void countSort(int arr[], int size);
+
+// Statistic functions
+float median(const int arr[], int size);
+int mode(const int arr[], int size);
 
 /*** MAIN FUNCTION ***/
 int main(int argc, char* argv[]) {
@@ -40,46 +45,54 @@ int main(int argc, char* argv[]) {
     cout << "---------------Array X: -------------------" << endl;
     for (int i = 0; i < 50000; ++i) {
         arrX[i] = *(arrayX + i);
-        cout << arrX[i] << endl;
+//        cout << arrX[i] << endl;
     }
 
     cout << "---------------Array Y: -------------------" << endl;
     for (int i = 0; i < 50000; ++i) {
         arrY[i] = *(arrayY + i);
-        cout << arrY[i] << endl;
+//        cout << arrY[i] << endl;
     }
 
     /*** Sort array ***/
     countSort(arrX, 50000);
     countSort(arrY, 50000);
 
-    /*** Print out after sort array ***/
-    cout << "---------------Array X sort: -------------------" << endl;
-    for (int i = 0; i < 50000; ++i) {
-        cout << arrX[i] << endl;
-    }
+//    /*** Print out after sort array ***/
+//    cout << "---------------Array X sort: -------------------" << endl;
+//    for (int i : arrX) {
+//        cout << i << endl;
+//    }
+//
+//    cout << "---------------Array Y sort: -------------------" << endl;
+//    for (int i : arrY) {
+//        cout << i << endl;
+//    }
 
-    cout << "---------------Array Y sort: -------------------" << endl;
-    for (int i = 0; i < 50000; ++i) {
-        cout << arrY[i] << endl;
-    }
+    //--Median of X and Y--
+    int size_x = sizeof(arrX)/sizeof(arrX[0]),
+        size_y = sizeof(arrY)/sizeof(arrY[0]);
+    float med_x = median(arrX, size_x),
+          med_y = median(arrY, size_y);
+    cout << "median_x = " << med_x << " - " << "median_y = " << med_y << endl;
+
+    //--Mode of X and Y--
+    double mod_x = mode(arrX, size_x),
+           mod_y = mode(arrY, size_y);
+    cout << "mode_x = " << mod_x << " - " << "mode_y = " << mod_y << endl;
+
     return 0;
 }
 
 /*** FUNCTION to read a file ***/
 int* getArrayX(string argument, int arr_x[50000]){
     // Declare variables.
-    string line;
-    string word;
-    string word2;
-    string intermediate;
-    string single_word = "";
-    string single_word2 = "";
     int index_x = 0;
-    string word3 = "";
+    string  line, word, word2, intermediate,
+            single_word = "", single_word2 = "", word3 = "";
 
     // Reading file
-    ifstream myfile("/Users/huybuithanh/CLionProjects/GrpCPP/Data/" + argument );
+    ifstream myfile(argument);
 
     // If file is found then open it
     if (myfile.is_open()) {
@@ -105,16 +118,12 @@ int* getArrayX(string argument, int arr_x[50000]){
 /*** FUNCTION to input datas y in the array ***/
 int* getArrayY(string argument, int arr_y[50000]){
     // Declare variables.
-    string line;
-    string word;
-    string word2;
-    string intermediate;
-    string single_word = "";
-    string single_word2 = "";
+    string  line, word, word2, intermediate,
+            single_word = "", single_word2 = "", word3 = "";
     int index_y = 0;
-    string word3 = "";
+
     // Reading file
-    ifstream myfile("/Users/huybuithanh/CLionProjects/GrpCPP/Data/" + argument );
+    ifstream myfile(argument);
 
     // If file is found then open it
     if (myfile.is_open()) {
@@ -161,19 +170,21 @@ string get_separate_word(string str){
 string get_separate_word2 (string str){
     string word = "";
     int int_index = 0;
+
+    // Find the starting position for int_index
     for (int i = 0; i < str.length(); ++i) {
         if (str[i] == ','){
             int_index = i;
             break;
         }
     }
-            for (int j = int_index + 1; j < str.length(); ++j) {
-                if (str[j] == '\n'){
-                    break;
-                } else {
-                    word += str[j];
-                }
-            }
+    for (int j = int_index + 1; j < str.length(); ++j) {
+        if (str[j] == '\n'){
+            break;
+        } else {
+            word += str[j];
+        }
+    }
 
     return word;
 }
@@ -194,17 +205,19 @@ void countSort(int arr[], int size) {
 
     // Size of the count array has to be bigger than the maximum element by one.
     int count[max + 1];
+
     // Initialize count array with all zeros.
     for (int i = 0; i <= max; ++i) {
         count[i] = 0;
     }
+    //    fill_n(count, max+1, 0);
 
     // Store the count of each element
     for (int i = 0; i < size; i++) {
         count[arr[i]]++;
     }
 
-    // Store the cummulative count of each array
+    // Store the cumulative count of each array
     for (int i = 1; i <= max; i++) {
         count[i] += count[i - 1];
     }
@@ -220,4 +233,33 @@ void countSort(int arr[], int size) {
     for (int i = 0; i < size; i++) {
         arr[i] = index[i];
     }
+}
+
+/*** FUNCTION to find median ***/
+float median(const int arr[], int size) {
+    int mid_pos = round(size/2);
+    double med = (arr[mid_pos] + arr[mid_pos - 1]);
+    return med / 2.0;
+}
+
+/*** FUNCTION to find mode ***/
+int mode(const int arr[], int size) {
+    int count[size];
+
+    fill_n(count, size, 0);
+
+    for (int i = 0; i < size; i++)
+        count[arr[i]]++;
+
+    int max = count[0],
+        mode = 0;
+
+    for (int i = 1; i < size; i++) {
+        if (count[i] > max) {
+            max = count[i];
+            mode = i;
+        }
+    }
+
+    return mode;
 }

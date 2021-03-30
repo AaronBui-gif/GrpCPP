@@ -1,7 +1,9 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/GrpCPP.dir/main.cpp.o"
-  "GrpCPP"
+  "CMakeFiles/GrpCPP.dir/main.cpp.obj"
+  "GrpCPP.exe"
+  "GrpCPP.exe.manifest"
   "GrpCPP.pdb"
+  "libGrpCPP.dll.a"
 )
 
 # Per-language clean rules from dependency scanning.
