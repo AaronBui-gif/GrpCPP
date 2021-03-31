@@ -18,6 +18,10 @@ string get_separate_word(string str);
 string get_separate_word2(string str);
 void countSort(int arr[], int size);
 
+// Statistic functions
+float median(const int arr[], int size);
+double mode(int arr[], int size);
+
 /*** MAIN FUNCTION ***/
 int main(int argc, char* argv[]) {
     /*** Declare variables ***/
@@ -63,6 +67,20 @@ int main(int argc, char* argv[]) {
     for (int i = 0; i < 50000; ++i) {
         cout << arrY[i] << endl;
     }
+
+    //--Median of X and Y--
+    int size_x = sizeof(arrX)/sizeof(arrX[0]),
+            size_y = sizeof(arrY)/sizeof(arrY[0]);
+    float med_x = median(arrX, size_x),
+            med_y = median(arrY, size_y);
+    cout << "median_x = " << med_x << " - " << "median_y = " << med_y << endl;
+
+    //--Mode of X and Y--
+    double mod_x = mode(arrX, size_x),
+            mod_y = mode(arrY, size_y);
+
+    cout << "mode_x = " << mod_x << " - " << "mode_y = " << mod_y << endl;
+
     return 0;
 }
 
@@ -220,4 +238,46 @@ void countSort(int arr[], int size) {
     for (int i = 0; i < size; i++) {
         arr[i] = index[i];
     }
+}
+
+/*** FUNCTION to find median ***/
+float median(const int arr[], int size) {
+    int mid_pos = round(size/2);
+    double med = (arr[mid_pos] + arr[mid_pos - 1]);
+    return med / 2;
+}
+
+/*** FUNCTION to find mode ***/
+double mode(int arr[], int size = 50000) {
+    // Set maximum as the first element in the array.
+    int max_val = arr[0];
+
+    // Find the largest element of the array
+    for (int i = 1; i < size; i++) {
+        if (arr[i] > max_val)
+            max_val = arr[i];
+    }
+
+    int count[max_val + 1];
+
+    // Initialize count array with all zeros.
+    fill_n(count, max_val+1, 0);
+
+    // Store the count of each element
+    for (int i = 0; i < size; i++)
+        count[arr[i]]++;
+
+    int max_count = count[0],
+            mode = count[0];
+
+    for (int i = 1; i < sizeof(count)/ sizeof(int); i++) {
+        if (count[i] > max_count) {
+            max_count = count[i];
+            mode = i;
+        }
+    }
+
+    cout << "Count[" << mode << "] = " << max_count << endl;
+
+    return mode;
 }
