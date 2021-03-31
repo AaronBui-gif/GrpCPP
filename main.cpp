@@ -21,7 +21,7 @@ void countSort(int arr[], int size);
 
 // Statistic functions
 float median(const int arr[], int size);
-int mode(const int arr[], int size);
+double mode(int arr[], int size);
 
 /*** MAIN FUNCTION ***/
 int main(int argc, char* argv[]) {
@@ -42,13 +42,13 @@ int main(int argc, char* argv[]) {
     // Set datas contains values in the file.
     int *arrayX = getArrayX(second_argument, arrX);
     int *arrayY = getArrayY(second_argument, arrY);
-    cout << "---------------Array X: -------------------" << endl;
+//    cout << "---------------Array X: -------------------" << endl;
     for (int i = 0; i < 50000; ++i) {
         arrX[i] = *(arrayX + i);
 //        cout << arrX[i] << endl;
     }
 
-    cout << "---------------Array Y: -------------------" << endl;
+//    cout << "---------------Array Y: -------------------" << endl;
     for (int i = 0; i < 50000; ++i) {
         arrY[i] = *(arrayY + i);
 //        cout << arrY[i] << endl;
@@ -79,6 +79,7 @@ int main(int argc, char* argv[]) {
     //--Mode of X and Y--
     double mod_x = mode(arrX, size_x),
            mod_y = mode(arrY, size_y);
+
     cout << "mode_x = " << mod_x << " - " << "mode_y = " << mod_y << endl;
 
     return 0;
@@ -239,27 +240,40 @@ void countSort(int arr[], int size) {
 float median(const int arr[], int size) {
     int mid_pos = round(size/2);
     double med = (arr[mid_pos] + arr[mid_pos - 1]);
-    return med / 2.0;
+    return med / 2;
 }
 
 /*** FUNCTION to find mode ***/
-int mode(const int arr[], int size) {
-    int count[size];
+double mode(int arr[], int size = 50000) {
+    // Set maximum as the first element in the array.
+    int max_val = arr[0];
 
-    fill_n(count, size, 0);
+    // Find the largest element of the array
+    for (int i = 1; i < size; i++) {
+        if (arr[i] > max_val)
+            max_val = arr[i];
+    }
 
+    int count[max_val + 1];
+
+    // Initialize count array with all zeros.
+    fill_n(count, max_val+1, 0);
+
+    // Store the count of each element
     for (int i = 0; i < size; i++)
         count[arr[i]]++;
 
-    int max = count[0],
-        mode = 0;
+    int max_count = count[0],
+        mode = count[0];
 
-    for (int i = 1; i < size; i++) {
-        if (count[i] > max) {
-            max = count[i];
+    for (int i = 1; i < sizeof(count)/ sizeof(int); i++) {
+        if (count[i] > max_count) {
+            max_count = count[i];
             mode = i;
         }
     }
+
+    cout << "Count[" << mode << "] = " << max_count << endl;
 
     return mode;
 }
