@@ -15,7 +15,7 @@
 #include <math.h>
 
 using namespace std;
-using namespace std::chrono;
+//using namespace std::chrono;
 
 /*** Calling functions. ***/
 int* getArrayX(string argument, int arr_x[]);
@@ -31,6 +31,8 @@ double mode(int arr[], int size);
 double variance(int arr[], int size, double mean);
 double stdev(int arr[], int size, double mean);
 double skewness(int arr[], int size, double mean);
+double kurtosis(int arr[], int size, double mean);
+
 // Inferential Statistics functions
 double mean(int array[], int size);
 float covariance(int array1[], int array2[], int size, double mean_x, double mean_y);
@@ -56,17 +58,17 @@ int main(int argc, char* argv[]) {
     // Set datas contains values in the file.
     int *arrayX = getArrayX(second_argument, arrX);
     int *arrayY = getArrayY(second_argument, arrY);
-//    cout << "---------------Array X: -------------------" << endl;
-//    for (int i = 0; i < 50000; ++i) {
-//        arrX[i] = *(arrayX + i);
+    cout << "---------------Array X: -------------------" << endl;
+    for (int i = 0; i < 50000; ++i) {
+        arrX[i] = *(arrayX + i);
 //        cout << arrX[i] << endl;
-//    }
-//
-//    cout << "---------------Array Y: -------------------" << endl;
-//    for (int i = 0; i < 50000; ++i) {
-//        arrY[i] = *(arrayY + i);
+    }
+
+    cout << "---------------Array Y: -------------------" << endl;
+    for (int i = 0; i < 50000; ++i) {
+        arrY[i] = *(arrayY + i);
 //        cout << arrY[i] << endl;
-//    }
+    }
 
     /*** Sort array ***/
     countSort(arrX, 50000);
@@ -83,7 +85,7 @@ int main(int argc, char* argv[]) {
 //        cout << arrY[i] << endl;
 //    }
     int size_x = sizeof(arrX)/sizeof(arrX[0]),
-            size_y = sizeof(arrY)/sizeof(arrY[0]);
+        size_y = sizeof(arrY)/sizeof(arrY[0]);
 
     // Mean of X and Y
     double mean_x = mean(arrX, size_x);
@@ -93,12 +95,12 @@ int main(int argc, char* argv[]) {
 
     //--Median of X and Y--
 
-    float med_x = median(arrX, size_x),
+    double  med_x = median(arrX, size_x),
             med_y = median(arrY, size_y);
     cout << "median_x = " << med_x << " - " << "median_y = " << med_y << endl;
 
     //--Mode of X and Y--
-    double mod_x = mode(arrX, size_x),
+    double  mod_x = mode(arrX, size_x),
             mod_y = mode(arrY, size_y);
 
     cout << "mode_x = " << mod_x << " - " << "mode_y = " << mod_y << endl;
@@ -107,6 +109,7 @@ int main(int argc, char* argv[]) {
     double var_x = variance(arrX, size_x, mean_x);
     double var_y = variance(arrY, size_y, mean_y);
     cout << "var_x= " << var_x << " - var_y = " << var_y << endl;
+
     // Standard deviation of array X and array Y
     double stdDevX = stdev(arrX, size_x, mean_x);
     double stdDevY =  stdev(arrY, size_y, mean_y);
@@ -119,13 +122,18 @@ int main(int argc, char* argv[]) {
     double skew_y = skewness(arrY, size_y, mean_y);
     cout << "skew_x= " << skew_x << " - skew_y = " << skew_y << endl;
 
+    // Kurtosis of array X and array Y
+    double kurto_x = kurtosis(arrX, size_x, mean_x);
+    double kurto_y = kurtosis(arrY, size_y, mean_y);
+    cout << "kurt_x= " << kurto_x << " - kurt_y = " << kurto_y << endl;
+
     // Covariance of array X and array Y
     double cov = covariance(arrX, arrY, size_x, mean_x, mean_y);
     cout << "cov(x_y) = ";
     cout << cov << endl;
 
     // Pearson correlation coefficient of array X and array Y
-    float pearsonCorrelation = pearsonCorrelationCoefficient(arrX, arrY, size_x, cov, stdDevX, stdDevY);
+    double pearsonCorrelation = pearsonCorrelationCoefficient(arrX, arrY, size_x, cov, stdDevX, stdDevY);
     cout << "r(x_y) = ";
     cout << pearsonCorrelation << endl;
     cout << pearsonCorrelationCoefficient(arrX, arrY, size_x, cov, stdDevX, stdDevY) << endl;
@@ -147,7 +155,7 @@ int* getArrayX(string argument, int arr_x[50000]){
     string word3 = "";
 
     // Reading file
-    ifstream myfile("/Users/huybuithanh/CLionProjects/GrpCPP/Data/" + argument );
+    ifstream myfile(argument);
 
     // If file is found then open it
     if (myfile.is_open()) {
@@ -182,7 +190,7 @@ int* getArrayY(string argument, int arr_y[50000]){
     int index_y = 0;
     string word3 = "";
     // Reading file
-    ifstream myfile("/Users/huybuithanh/CLionProjects/GrpCPP/Data/" + argument );
+    ifstream myfile(argument);
 
     // If file is found then open it
     if (myfile.is_open()) {
@@ -272,7 +280,7 @@ void countSort(int arr[], int size) {
         count[arr[i]]++;
     }
 
-    // Store the cummulative count of each array
+    // Store the cumulative count of each array
     for (int i = 1; i <= max; i++) {
         count[i] += count[i - 1];
     }
@@ -360,6 +368,7 @@ double stdev(int arr[], int size, double mean) {
     return sqrt(variance(arr, size, mean));
 }
 
+/*** FUNCTION to get skewness ***/
 double skewness(int arr[], int size, double mean) {
     double sum = 0;
 
@@ -368,6 +377,20 @@ double skewness(int arr[], int size, double mean) {
     }
 
     return sum / (size * (stdev(arr, size, mean) * stdev(arr, size, mean) * stdev(arr, size, mean)));
+}
+
+/*** FUNCTION to get kurtosis ***/
+double kurtosis(int arr[], int size, double mean) {
+    double kur = 0,
+           var = variance(arr, size, mean),
+           std_dev = sqrt(var);
+
+    for (int i = 0; i < size; i++)
+        kur += pow((arr[i] - mean) / std_dev, 4);
+
+    kur = kur/size - 3;
+
+    return kur;
 }
 
 /*** FUNCTION to get covariance of array X and array Y ***/
@@ -385,7 +408,7 @@ float covariance(int array1[], int array2[], int size, double mean_x, double mea
 
 /*** FUNCTION to get Pearson Correlation Coefficient ***/
 float pearsonCorrelationCoefficient(int array1[], int array2[], int size, float covariance, double stdevX, double stdevY){
-    // Declare varibales
+    // Declare variables
     float corr = 0;
     // Calculate Pearson Correlation Coefficient
     corr = covariance / (stdevX * stdevY);
