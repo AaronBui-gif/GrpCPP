@@ -1,6 +1,12 @@
-//
-// Created by Huy Bui Thanh on 16/03/2021.
-//
+/***
+    Course: Software Engineering Design EEET2482
+    Assignment: Group Assignment 1
+    Contributor: Bui Thanh Huy - s3740934
+                 Nguyen Huy Hoang - s3764704
+
+    Lecturer: Minh Dinh
+    School: RMIT
+***/
 
 /*** Calling Libraries ***/
 #include <iostream>
@@ -9,6 +15,7 @@
 #include <math.h>
 
 using namespace std;
+using namespace std::chrono;
 
 /*** Calling functions. ***/
 int* getArrayX(string argument, int arr_x[]);
@@ -19,16 +26,24 @@ string get_separate_word2(string str);
 void countSort(int arr[], int size);
 
 // Statistic functions
-float median(const int arr[], int size);
+double median(const int arr[], int size);
 double mode(int arr[], int size);
+double variance(int arr[], int size, double mean);
+double stdev(int arr[], int size, double mean);
+double skewness(int arr[], int size, double mean);
+// Inferential Statistics functions
+double mean(int array[], int size);
+float covariance(int array1[], int array2[], int size, double mean_x, double mean_y);
+float pearsonCorrelationCoefficient(int array1[], int array2[], int size, float covariance, double stdevX, double stdevY);
 
 /*** MAIN FUNCTION ***/
 int main(int argc, char* argv[]) {
     /*** Declare variables ***/
+    int X[] = {15, 18, 21, 24, 27};
+    int Y[] = {25, 25, 27, 31, 32};
     string datas;
     int arrX[50000];
     int arrY[50000];
-
     /*** If user does not input 2 arguments ***/
     if (argc != 2){
         cout << "Format can only contain two arguments" << endl;
@@ -41,36 +56,43 @@ int main(int argc, char* argv[]) {
     // Set datas contains values in the file.
     int *arrayX = getArrayX(second_argument, arrX);
     int *arrayY = getArrayY(second_argument, arrY);
-    cout << "---------------Array X: -------------------" << endl;
-    for (int i = 0; i < 50000; ++i) {
-        arrX[i] = *(arrayX + i);
-        cout << arrX[i] << endl;
-    }
-
-    cout << "---------------Array Y: -------------------" << endl;
-    for (int i = 0; i < 50000; ++i) {
-        arrY[i] = *(arrayY + i);
-        cout << arrY[i] << endl;
-    }
+//    cout << "---------------Array X: -------------------" << endl;
+//    for (int i = 0; i < 50000; ++i) {
+//        arrX[i] = *(arrayX + i);
+//        cout << arrX[i] << endl;
+//    }
+//
+//    cout << "---------------Array Y: -------------------" << endl;
+//    for (int i = 0; i < 50000; ++i) {
+//        arrY[i] = *(arrayY + i);
+//        cout << arrY[i] << endl;
+//    }
 
     /*** Sort array ***/
     countSort(arrX, 50000);
     countSort(arrY, 50000);
 
-    /*** Print out after sort array ***/
-    cout << "---------------Array X sort: -------------------" << endl;
-    for (int i = 0; i < 50000; ++i) {
-        cout << arrX[i] << endl;
-    }
-
-    cout << "---------------Array Y sort: -------------------" << endl;
-    for (int i = 0; i < 50000; ++i) {
-        cout << arrY[i] << endl;
-    }
-
-    //--Median of X and Y--
+//    /*** Print out after sort array ***/
+//    cout << "---------------Array X sort: -------------------" << endl;
+//    for (int i = 0; i < 50000; ++i) {
+//        cout << arrX[i] << endl;
+//    }
+//
+//    cout << "---------------Array Y sort: -------------------" << endl;
+//    for (int i = 0; i < 50000; ++i) {
+//        cout << arrY[i] << endl;
+//    }
     int size_x = sizeof(arrX)/sizeof(arrX[0]),
             size_y = sizeof(arrY)/sizeof(arrY[0]);
+
+    // Mean of X and Y
+    double mean_x = mean(arrX, size_x);
+    double mean_y = mean(arrY, size_y);
+
+    cout << "mean x = " << mean_x << " - mean y = " << mean_y << endl;
+
+    //--Median of X and Y--
+
     float med_x = median(arrX, size_x),
             med_y = median(arrY, size_y);
     cout << "median_x = " << med_x << " - " << "median_y = " << med_y << endl;
@@ -81,7 +103,35 @@ int main(int argc, char* argv[]) {
 
     cout << "mode_x = " << mod_x << " - " << "mode_y = " << mod_y << endl;
 
-    return 0;
+    // Variance of array X and array Y
+    double var_x = variance(arrX, size_x, mean_x);
+    double var_y = variance(arrY, size_y, mean_y);
+    cout << "var_x= " << var_x << " - var_y = " << var_y << endl;
+    // Standard deviation of array X and array Y
+    double stdDevX = stdev(arrX, size_x, mean_x);
+    double stdDevY =  stdev(arrY, size_y, mean_y);
+    cout << "stdev_x= " << stdDevX << " - stdev_y = " << stdDevY << endl;
+
+    // Mean Absolute Deviations
+
+    // Skewness of array X and array Y
+    double skew_x = skewness(arrX, size_x, mean_x);
+    double skew_y = skewness(arrY, size_y, mean_y);
+    cout << "skew_x= " << skew_x << " - skew_y = " << skew_y << endl;
+
+    // Covariance of array X and array Y
+    double cov = covariance(arrX, arrY, size_x, mean_x, mean_y);
+    cout << "cov(x_y) = ";
+    cout << cov << endl;
+
+    // Pearson correlation coefficient of array X and array Y
+    float pearsonCorrelation = pearsonCorrelationCoefficient(arrX, arrY, size_x, cov, stdDevX, stdDevY);
+    cout << "r(x_y) = ";
+    cout << pearsonCorrelation << endl;
+    cout << pearsonCorrelationCoefficient(arrX, arrY, size_x, cov, stdDevX, stdDevY) << endl;
+    cout << pearsonCorrelationCoefficient(arrX, arrY, 50000, cov, stdDevX, stdDevY) << endl;
+    //cout << pearsonCorrelationCoefficient(X, Y, 5) << endl;
+    return 0
 }
 
 /*** FUNCTION to read a file ***/
@@ -241,7 +291,7 @@ void countSort(int arr[], int size) {
 }
 
 /*** FUNCTION to find median ***/
-float median(const int arr[], int size) {
+double median(const int arr[], int size) {
     int mid_pos = round(size/2);
     double med = (arr[mid_pos] + arr[mid_pos - 1]);
     return med / 2;
@@ -280,4 +330,75 @@ double mode(int arr[], int size = 50000) {
     cout << "Count[" << mode << "] = " << max_count << endl;
 
     return mode;
+}
+
+/*** FUNCTION to get mean of the array ***/
+double mean(int array[], int size){
+    double sumMean = 0;
+    for (int i = 0; i < size; ++i) {
+        sumMean += array[i];
+    }
+
+    // Return the mean of elements
+    return sumMean / size;
+}
+
+/*** FUNCTION to get variance ***/
+double variance(int arr[], int size, double mean){
+    // Declare
+    double sum = 0;
+
+    for (int i = 0; i < size; i++) {
+        sum += ((arr[i] - mean) * (arr[i] - mean));
+    }
+
+    return (sum / (size - 1));
+}
+
+/*** FUNCTION to get standard deviation ***/
+double stdev(int arr[], int size, double mean) {
+    return sqrt(variance(arr, size, mean));
+}
+
+double skewness(int arr[], int size, double mean) {
+    double sum = 0;
+
+    for (int i = 0; i < size; i++) {
+        sum = ((arr[i] - mean) * (arr[i] - mean) * (arr[i] - mean));
+    }
+
+    return sum / (size * (stdev(arr, size, mean) * stdev(arr, size, mean) * stdev(arr, size, mean)));
+}
+
+/*** FUNCTION to get covariance of array X and array Y ***/
+float covariance(int array1[], int array2[], int size, double mean_x, double mean_y){
+    // Declare variables.
+    float sum = 0;
+
+    // Sigma of (element array X - mean of array X) * (element array Y - mean of array Y)
+    for (int i = 0; i < size; ++i) {
+        sum = sum + ((array1[i] - mean_x) * (array2[i] - mean_y));
+    }
+    // Return covariance
+    return sum / (size - 1);
+}
+
+/*** FUNCTION to get Pearson Correlation Coefficient ***/
+float pearsonCorrelationCoefficient(int array1[], int array2[], int size, float covariance, double stdevX, double stdevY){
+    int sum_X = 0, sum_Y = 0, sum_XY = 0;
+    int squareSum_X = 0, squareSum_Y = 0;
+    float corr = 0;
+    for (int i = 0; i < size; i++){
+        sum_X += array1[i];
+        sum_Y += array2[i];
+        sum_XY += array1[i] * array2[i];
+        squareSum_X += array1[i] * array1[i];
+        squareSum_Y += array2[i] * array2[i];
+    }
+    corr = covariance / (stdevX * stdevY);
+//    double corr = ((size * sum_XY) - (sum_X * sum_Y)) / sqrt(((size * squareSum_X) - (sum_X * sum_X)) * ((size * squareSum_Y) - (sum_Y * sum_Y)));
+//    return corr;
+    //corr = ((size * sum_XY) - (sum_X * sum_Y))/ sqrt(((size * squareSum_X) - (sum_X * sum_X)) * ((size * squareSum_Y) - (sum_Y * sum_Y)));
+//    double corr = sum_XY - ((sum_X * sum_Y) / size) / sqrt(squareSum_X - ((sum_X * sum_X) / size)) - sqrt(squareSum_Y - ((sum_Y * sum_Y) / size));
+    return corr;
 }
