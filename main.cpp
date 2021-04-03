@@ -131,7 +131,7 @@ int main(int argc, char* argv[]) {
     cout << pearsonCorrelationCoefficient(arrX, arrY, size_x, cov, stdDevX, stdDevY) << endl;
     cout << pearsonCorrelationCoefficient(arrX, arrY, 50000, cov, stdDevX, stdDevY) << endl;
     //cout << pearsonCorrelationCoefficient(X, Y, 5) << endl;
-    return 0
+    return 0;
 }
 
 /*** FUNCTION to read a file ***/
@@ -385,20 +385,9 @@ float covariance(int array1[], int array2[], int size, double mean_x, double mea
 
 /*** FUNCTION to get Pearson Correlation Coefficient ***/
 float pearsonCorrelationCoefficient(int array1[], int array2[], int size, float covariance, double stdevX, double stdevY){
-    int sum_X = 0, sum_Y = 0, sum_XY = 0;
-    int squareSum_X = 0, squareSum_Y = 0;
+    // Declare varibales
     float corr = 0;
-    for (int i = 0; i < size; i++){
-        sum_X += array1[i];
-        sum_Y += array2[i];
-        sum_XY += array1[i] * array2[i];
-        squareSum_X += array1[i] * array1[i];
-        squareSum_Y += array2[i] * array2[i];
-    }
+    // Calculate Pearson Correlation Coefficient
     corr = covariance / (stdevX * stdevY);
-//    double corr = ((size * sum_XY) - (sum_X * sum_Y)) / sqrt(((size * squareSum_X) - (sum_X * sum_X)) * ((size * squareSum_Y) - (sum_Y * sum_Y)));
-//    return corr;
-    //corr = ((size * sum_XY) - (sum_X * sum_Y))/ sqrt(((size * squareSum_X) - (sum_X * sum_X)) * ((size * squareSum_Y) - (sum_Y * sum_Y)));
-//    double corr = sum_XY - ((sum_X * sum_Y) / size) / sqrt(squareSum_X - ((sum_X * sum_X) / size)) - sqrt(squareSum_Y - ((sum_Y * sum_Y) / size));
     return corr;
 }
