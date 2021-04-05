@@ -68,13 +68,13 @@ int main(int argc, char* argv[]) {
     int *arrayX = getArrayX(second_argument, arrX);
     int *arrayY = getArrayY(second_argument, arrY);
 //    cout << "---------------Array X: -------------------" << endl;
-//    for (int i = 0; i < 50000; ++i) {
+//    for (int i = 0; i < number_datas; ++i) {
 //        arrX[i] = *(arrayX + i);
 //        cout << arrX[i] << endl;
 //    }
 //
 //    cout << "---------------Array Y: -------------------" << endl;
-//    for (int i = 0; i < 50000; ++i) {
+//    for (int i = 0; i < number_datas; ++i) {
 //        arrY[i] = *(arrayY + i);
 //        cout << arrY[i] << endl;
 //    }
@@ -85,12 +85,12 @@ int main(int argc, char* argv[]) {
 
 //    /*** Print out after sort array ***/
 //    cout << "---------------Array X sort: -------------------" << endl;
-//    for (int i = 0; i < 50000; ++i) {
+//    for (int i = 0; i < number_datas; ++i) {
 //        cout << arrX[i] << endl;
 //    }
 //
 //    cout << "---------------Array Y sort: -------------------" << endl;
-//    for (int i = 0; i < 50000; ++i) {
+//    for (int i = 0; i < number_datas; ++i) {
 //        cout << arrY[i] << endl;
 //    }
     int size_x = sizeof(arrX)/sizeof(arrX[0]),
@@ -349,7 +349,7 @@ double median(const int arr[], int size) {
 }
 
 /*** FUNCTION to find mode ***/
-double mode(int arr[], int size = 50000) {
+double mode(int arr[], int size) {
     // Set maximum as the first element in the array.
     int max_val = arr[0];
 
