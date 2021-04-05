@@ -42,6 +42,7 @@ float pearsonCorrelationCoefficient(float covariance, double stdevX, double stde
 
 // Members name
 void printMembers();
+
 /*** MAIN FUNCTION ***/
 int main(int argc, char* argv[]) {
     /*** Declare variables ***/
