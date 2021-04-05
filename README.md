@@ -6,6 +6,7 @@ RMIT - Royal Melbourne Institute of Technology
                     Nguyen Huy Hoang (s3764704)
                     Ho Minh Dung (s3795370)
                     Lai Nghiep Tri (s3799602)
+                    Nguyen Dich Long (s3879052)
 -------------------------------------------------------------------------------------------------------------------
                                             Using GitHub
 Step 1: Create branch on github.com or in IDE

@@ -5,6 +5,7 @@
                  Nguyen Huy Hoang - s3764704
                  Ho Minh Dung - s3795370
                  Lai Nghiep Tri - s3799602
+                 Nguyen Dich Long - s3879052
     Lecturer: Minh Dinh
     School: RMIT
 ***/
@@ -462,4 +463,5 @@ void printMembers(){
     cout << "s3764704, s3764704@rmit.edu.vn, Hoang, Nguyen Huy" << endl;
     cout << "s3795370, s3795370@rmit.edu.vn, Dung, Ho Minh" << endl;
     cout << "s3799602, s3799602@rmit.edu.vn, Tri, Lai Nghiep" << endl;
+    cout << "s3879052, s3879052@rmit.edu.vn, Long, Nguyen Dich" << endl;
 }
