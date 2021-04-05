@@ -57,7 +57,7 @@ int main(int argc, char* argv[]) {
     string second_argument = argv[1];
 
     /*** Get number of line ***/
-    int number_datas = countDatas(second_argument);
+    const int number_datas = countDatas(second_argument);
 
     /*** Declare variables ***/
     string datas;
