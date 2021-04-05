@@ -19,6 +19,7 @@
 using namespace std;
 
 /*** Calling functions. ***/
+int countDatas(string argument);
 int* getArrayX(string argument, int arr_x[]);
 int* getArrayY(string argument, int arr_y[]);
 void skip_line(istream &is, size_t size, char delim);
@@ -46,10 +47,6 @@ void printMembers();
 
 /*** MAIN FUNCTION ***/
 int main(int argc, char* argv[]) {
-    /*** Declare variables ***/
-    string datas;
-    int arrX[50000];
-    int arrY[50000];
     /*** If user does not input 2 arguments ***/
     if (argc != 2){
         cout << "Format can only contain two arguments" << endl;
@@ -59,7 +56,15 @@ int main(int argc, char* argv[]) {
     // Convert argv to string
     string second_argument = argv[1];
 
-    // Set datas contains values in the file.
+    /*** Get number of line ***/
+    int number_datas = countDatas(second_argument);
+
+    /*** Declare variables ***/
+    string datas;
+    int arrX[number_datas];
+    int arrY[number_datas];
+
+         // Set datas contains values in the file.
     int *arrayX = getArrayX(second_argument, arrX);
     int *arrayY = getArrayY(second_argument, arrY);
 //    cout << "---------------Array X: -------------------" << endl;
@@ -75,8 +80,8 @@ int main(int argc, char* argv[]) {
 //    }
 
     /*** Sort array ***/
-    countSort(arrX, 50000);
-    countSort(arrY, 50000);
+    countSort(arrX, number_datas);
+    countSort(arrY, number_datas);
 
 //    /*** Print out after sort array ***/
 //    cout << "---------------Array X sort: -------------------" << endl;
@@ -152,8 +157,36 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
+/*** FUNCTION to count number of line in file ***/
+int countDatas(string argument){
+    // Declare variables.
+    string line;
+    string word;
+    string intermediate;
+    int count = 0;
+    string word3 = "";
+
+    // Reading file
+    ifstream myfile("/Users/huybuithanh/CLionProjects/GrpCPP/Data/" + argument );
+
+    // If file is found then open it
+    if (myfile.is_open()) {
+        // SKip on line in the csv file (skip "x,y")
+        skip_line(myfile, 1, '\n');
+        // Get words in one line
+        while (getline(myfile, word, '\n')) {
+            count++;
+        }
+    }
+
+        // If File is not found
+    else cout << "Unable to open file";
+    myfile.close(); // Closing File.
+
+    return count;
+}
 /*** FUNCTION to read a file ***/
-int* getArrayX(string argument, int arr_x[50000]){
+int* getArrayX(string argument, int arr_x[]){
     // Declare variables.
     string line;
     string word;
@@ -189,7 +222,7 @@ int* getArrayX(string argument, int arr_x[50000]){
 }
 
 /*** FUNCTION to input datas y in the array ***/
-int* getArrayY(string argument, int arr_y[50000]){
+int* getArrayY(string argument, int arr_y[]){
     // Declare variables.
     string line;
     string word;
@@ -268,7 +301,7 @@ string get_separate_word2 (string str){
 /*** Time complexity: O(n + k) ***/
 void countSort(int arr[], int size) {
     // Size of index array has to be same as the size of arr[] to contains all datas.
-    int index[50000];
+    int index[size];
     // Set maximum as the first element in the array.
     int max = arr[0];
 
