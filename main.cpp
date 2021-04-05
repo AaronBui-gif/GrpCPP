@@ -3,7 +3,8 @@
     Assignment: Group Assignment 1
     Contributor: Bui Thanh Huy - s3740934
                  Nguyen Huy Hoang - s3764704
-
+                 Ho Minh Dung - s3795370
+                 Lai Nghiep Tri - s3799602
     Lecturer: Minh Dinh
     School: RMIT
 ***/
@@ -28,6 +29,7 @@ void countSort(int arr[], int size);
 double median(const int arr[], int size);
 double mode(int arr[], int size);
 double variance(int arr[], int size, double mean);
+double mean_abs_dev(int arr[], int size);
 double FirstQuatile(int arr[], int size);
 double stdev(int arr[], int size, double mean);
 double skewness(int arr[], int size, double mean);
@@ -36,7 +38,7 @@ double kurtosis(int arr[], int size, double mean);
 // Inferential Statistics functions
 double mean(int array[], int size);
 float covariance(int array1[], int array2[], int size, double mean_x, double mean_y);
-float pearsonCorrelationCoefficient(int array1[], int array2[], int size, float covariance, double stdevX, double stdevY);
+float pearsonCorrelationCoefficient(float covariance, double stdevX, double stdevY);
 
 // Members name
 void printMembers();
@@ -51,7 +53,7 @@ int main(int argc, char* argv[]) {
         cout << "Format can only contain two arguments" << endl;
         exit(1);
     }
-
+    cout << endl;
     // Convert argv to string
     string second_argument = argv[1];
 
@@ -91,8 +93,6 @@ int main(int argc, char* argv[]) {
     double mean_x = mean(arrX, size_x);
     double mean_y = mean(arrY, size_y);
 
-    cout << "mean x = " << mean_x << " - mean y = " << mean_y << endl;
-
     //--Median of X and Y--
 
     float med_x = median(arrX, size_x),
@@ -116,9 +116,10 @@ int main(int argc, char* argv[]) {
     cout << "stdev_x= " << stdDevX << " - stdev_y = " << stdDevY << endl;
 
     // Mean Absolute Deviations
+    double mean_abs_x = mean_abs_dev(arrX, size_x);
+    double mean_abs_y = mean_abs_dev(arrY, size_y);
 
-
-
+    cout << "mad_x= " << mean_abs_x << " - mad_y = " << mean_abs_y << endl;
     // First Quartile
     double quatileArrX = FirstQuatile(arrX, size_x);
     double quatileArrY = FirstQuatile(arrY, size_y);
@@ -140,7 +141,7 @@ int main(int argc, char* argv[]) {
     cout << cov << endl;
 
     // Pearson correlation coefficient of array X and array Y
-    float pearsonCorrelation = pearsonCorrelationCoefficient(arrX, arrY, size_x, cov, stdDevX, stdDevY);
+    float pearsonCorrelation = pearsonCorrelationCoefficient(cov, stdDevX, stdDevY);
     cout << "r(x_y) = ";
     cout << pearsonCorrelation << endl;
 
@@ -370,6 +371,18 @@ double variance(int arr[], int size, double mean){
     return (sum / (size - 1));
 }
 
+/*** FUNCTION to get mean absolute deviations ***/
+double mean_abs_dev(int arr[], int size)
+{
+    float m = mean(arr, size);
+    float s = 0;
+    for (int i = 0; i < size; i++)
+    {
+        s += abs(arr[i] - m);
+    }
+    return (s / size);
+}
+
 /*** FUNCTION to get firs quartile ***/
 double FirstQuatile(int arr[], int size) {
     int half_size = round(size / 2);
@@ -432,7 +445,7 @@ float covariance(int array1[], int array2[], int size, double mean_x, double mea
 }
 
 /*** FUNCTION to get Pearson Correlation Coefficient ***/
-float pearsonCorrelationCoefficient(int array1[], int array2[], int size, float covariance, double stdevX, double stdevY){
+float pearsonCorrelationCoefficient(float covariance, double stdevX, double stdevY){
     // Declare varibales
     float corr = 0;
     // Calculate Pearson Correlation Coefficient
@@ -442,9 +455,10 @@ float pearsonCorrelationCoefficient(int array1[], int array2[], int size, float 
 
 /*** FUNCTION to print out name ***/
 void printMembers(){
-    cout << "ASSIGNMENT 2 GROUP <TT>" << endl;
+    cout << endl;
+    cout << "ASSIGNMENT 2 GROUP <02>" << endl;
     cout << "s3740934, s3740934@rmit.edu.vn, Huy, Bui Thanh" << endl;
-    cout << "XXXXXXX,sXXXXXXX@rmit.edu.vn,FirstName,LastNames" << endl;
-    cout << "YYYYYYY,sYYYYYYY@rmit.edu.vn,FirstName,LastNames" << endl;
-    cout << "ZZZZZZZ,sZZZZZZZ@rmit.edu.vn,FirstName,LastName" << endl;
+    cout << "s3764704, s3764704@rmit.edu.vn, Hoang, Nguyen Huy" << endl;
+    cout << "s3795370, s3795370@rmit.edu.vn, Dung, Ho Minh" << endl;
+    cout << "s3799602, s3799602@rmit.edu.vn, Tri, Lai Nghiep" << endl;
 }
