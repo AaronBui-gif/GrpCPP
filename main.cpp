@@ -15,7 +15,6 @@
 #include <math.h>
 
 using namespace std;
-using namespace std::chrono;
 
 /*** Calling functions. ***/
 int* getArrayX(string argument, int arr_x[]);
@@ -29,18 +28,21 @@ void countSort(int arr[], int size);
 double median(const int arr[], int size);
 double mode(int arr[], int size);
 double variance(int arr[], int size, double mean);
+double FirstQuatile(int arr[], int size);
 double stdev(int arr[], int size, double mean);
 double skewness(int arr[], int size, double mean);
+double kurtosis(int arr[], int size, double mean);
+
 // Inferential Statistics functions
 double mean(int array[], int size);
 float covariance(int array1[], int array2[], int size, double mean_x, double mean_y);
 float pearsonCorrelationCoefficient(int array1[], int array2[], int size, float covariance, double stdevX, double stdevY);
 
+// Members name
+void printMembers();
 /*** MAIN FUNCTION ***/
 int main(int argc, char* argv[]) {
     /*** Declare variables ***/
-    int X[] = {15, 18, 21, 24, 27};
-    int Y[] = {25, 25, 27, 31, 32};
     string datas;
     int arrX[50000];
     int arrY[50000];
@@ -107,6 +109,7 @@ int main(int argc, char* argv[]) {
     double var_x = variance(arrX, size_x, mean_x);
     double var_y = variance(arrY, size_y, mean_y);
     cout << "var_x= " << var_x << " - var_y = " << var_y << endl;
+
     // Standard deviation of array X and array Y
     double stdDevX = stdev(arrX, size_x, mean_x);
     double stdDevY =  stdev(arrY, size_y, mean_y);
@@ -114,10 +117,22 @@ int main(int argc, char* argv[]) {
 
     // Mean Absolute Deviations
 
+
+
+    // First Quartile
+    double quatileArrX = FirstQuatile(arrX, size_x);
+    double quatileArrY = FirstQuatile(arrY, size_y);
+    cout << "q1_x= " << quatileArrX << " - q1_y = " << quatileArrY << endl;
+
     // Skewness of array X and array Y
     double skew_x = skewness(arrX, size_x, mean_x);
     double skew_y = skewness(arrY, size_y, mean_y);
     cout << "skew_x= " << skew_x << " - skew_y = " << skew_y << endl;
+
+    // Kurtosis of array X and array Y
+    double kurto_x = kurtosis(arrX, size_x, mean_x);
+    double kurto_y = kurtosis(arrY, size_y, mean_y);
+    cout << "kurt_x= " << kurto_x << " - kurt_y = " << kurto_y << endl;
 
     // Covariance of array X and array Y
     double cov = covariance(arrX, arrY, size_x, mean_x, mean_y);
@@ -128,9 +143,9 @@ int main(int argc, char* argv[]) {
     float pearsonCorrelation = pearsonCorrelationCoefficient(arrX, arrY, size_x, cov, stdDevX, stdDevY);
     cout << "r(x_y) = ";
     cout << pearsonCorrelation << endl;
-    cout << pearsonCorrelationCoefficient(arrX, arrY, size_x, cov, stdDevX, stdDevY) << endl;
-    cout << pearsonCorrelationCoefficient(arrX, arrY, 50000, cov, stdDevX, stdDevY) << endl;
-    //cout << pearsonCorrelationCoefficient(X, Y, 5) << endl;
+
+    // Print out name of the members
+    printMembers();
     return 0;
 }
 
@@ -355,6 +370,25 @@ double variance(int arr[], int size, double mean){
     return (sum / (size - 1));
 }
 
+/*** FUNCTION to get firs quartile ***/
+double FirstQuatile(int arr[], int size) {
+    int half_size = round(size / 2);
+
+    float median;
+
+    median = arr[half_size];
+
+    if (half_size % 2 == 0) {
+        median = (arr[half_size] + arr[half_size - 1]) / 2;
+    }
+    else if (half_size % 2 != 0) {
+        //half_size = round(half_size);
+        median = arr[half_size / 2];
+    }
+
+    return median;
+}
+
 /*** FUNCTION to get standard deviation ***/
 double stdev(int arr[], int size, double mean) {
     return sqrt(variance(arr, size, mean));
@@ -368,6 +402,20 @@ double skewness(int arr[], int size, double mean) {
     }
 
     return sum / (size * (stdev(arr, size, mean) * stdev(arr, size, mean) * stdev(arr, size, mean)));
+}
+
+/*** FUNCTION to get kurtosis ***/
+double kurtosis(int arr[], int size, double mean) {
+    double kur = 0,
+            var = variance(arr, size, mean),
+            std_dev = sqrt(var);
+
+    for (int i = 0; i < size; i++)
+        kur += pow((arr[i] - mean) / std_dev, 4);
+
+    kur = kur/size - 3;
+
+    return kur;
 }
 
 /*** FUNCTION to get covariance of array X and array Y ***/
@@ -390,4 +438,13 @@ float pearsonCorrelationCoefficient(int array1[], int array2[], int size, float 
     // Calculate Pearson Correlation Coefficient
     corr = covariance / (stdevX * stdevY);
     return corr;
+}
+
+/*** FUNCTION to print out name ***/
+void printMembers(){
+    cout << "ASSIGNMENT 2 GROUP <TT>" << endl;
+    cout << "s3740934, s3740934@rmit.edu.vn, Huy, Bui Thanh" << endl;
+    cout << "XXXXXXX,sXXXXXXX@rmit.edu.vn,FirstName,LastNames" << endl;
+    cout << "YYYYYYY,sYYYYYYY@rmit.edu.vn,FirstName,LastNames" << endl;
+    cout << "ZZZZZZZ,sZZZZZZZ@rmit.edu.vn,FirstName,LastName" << endl;
 }
