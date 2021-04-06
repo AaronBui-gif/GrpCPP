@@ -21,24 +21,24 @@ using namespace std;
 /*** Set-up functions. ***/
 int count_data(string); // checked
 void get_array(string, double*, double*, int); // checked
-int compare(const void*, const void*);
-double mean(double*, int);
+int compare(const void*, const void*); // checked
+double mean(double*, int); // checked
 
 // B. Statistic functions
-double median(double*, int); // B1
+double median(double*, int); // B1 checked
 double mode(double*, int); // B2
 double variance(double*, int, double); // B3.1
 double stdev(double*, int, double); // B3.2
 double mean_abs_dev(double*, int); // B4
-double FirstQuatile(double*, int); // B5
+double firstQuatile(double*, int); // B5
 double skewness(double*, int, double); // B6
 double kurtosis(double*, int, double); // B7
 
 // C. Inferential Statistics functions
 float covariance(double*, double*, int, double, double); // C1
 float pearsonCorrelationCoefficient(float, double, double); // C2
-void linear_reg(double*, double*, float, double, double, double, double); // C3
-void print_linear_reg(double, double);
+void linear_reg(double*, double*, float, double, double, double, double); // C3 checked
+void print_linear_reg(double, double); // checked
 
 // Members name
 void printMembers();
@@ -70,24 +70,24 @@ int main(int argc, char* argv[]) {
     }
 
     // FOR TESTING
-    /*for (int i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++) {
         cout << "x: " << array_x[i] << ", " << "y: " << array_y[i] << endl << endl; // test
     }
 
     cout << "back up" << endl;
     for (int i = 0; i < size; i++) {
         cout << "x: " << org_x[i] << ", " << "y: " << org_y[i] << endl << endl; // test
-    }*/
+    }
 
     /*** Sort array ***/
     qsort(array_x, size, sizeof(double), compare);
     qsort(array_y, size, sizeof(double), compare);
 
     // FOR TESTING
-    /*cout << "sorted" << endl;
+    cout << "sorted" << endl;
     for (int i = 0; i < size; i++) {
         cout << "x: " << array_x[i] << ", " << "y: " << array_y[i] << endl << endl;
-    }*/
+    }
 
     // Mean of X and Y
     double mean_x = mean(array_x, size);
@@ -130,8 +130,8 @@ int main(int argc, char* argv[]) {
     cout << "mad_x= " << mean_abs_x << " - mad_y = " << mean_abs_y << endl;
 
     // B5. First Quartile
-    double quatileArrX = FirstQuatile(array_x, size);
-    double quatileArrY = FirstQuatile(array_y, size);
+    double quatileArrX = firstQuatile(array_x, size);
+    double quatileArrY = firstQuatile(array_y, size);
     cout << "q1_x= " << quatileArrX << " - q1_y = " << quatileArrY << endl;
 
     // B6. Skewness of array X and array Y
@@ -299,7 +299,7 @@ double mean_abs_dev(double* arr, int size)
 }
 
 /*** FUNCTION to get firs quartile ***/
-double FirstQuatile(double* arr, int size) {
+double firstQuatile(double* arr, int size) {
     int half_size = round(size / 2);
 
     float median;
@@ -378,7 +378,7 @@ void printMembers() {
     cout << "s3799602, s3799602@rmit.edu.vn, Tri, Lai Nghiep" << endl;
     cout << "s3879052, s3879052@rmit.edu.vn, Long, Nguyen Dich" << endl;
 }
-
+0
 void linear_reg(double* a, double* b, float pearson, double mean_x, double mean_y, double stdev_x, double stdev_y) {
     *a = (pearson * stdev_y) / stdev_x;
     *b = mean_y - (*a) * mean_x;
