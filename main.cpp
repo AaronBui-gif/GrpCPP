@@ -378,7 +378,7 @@ void printMembers() {
     cout << "s3799602, s3799602@rmit.edu.vn, Tri, Lai Nghiep" << endl;
     cout << "s3879052, s3879052@rmit.edu.vn, Long, Nguyen Dich" << endl;
 }
-0
+
 void linear_reg(double* a, double* b, float pearson, double mean_x, double mean_y, double stdev_x, double stdev_y) {
     *a = (pearson * stdev_y) / stdev_x;
     *b = mean_y - (*a) * mean_x;
