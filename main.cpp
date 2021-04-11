@@ -207,17 +207,16 @@ bool get_array(string filename, double* array_x, double* array_y, int size) {
         
         // check if the input is a number
         if (is_number(temp) == false) { 
-            cerr << "input is not a number at x" << i << endl;
+            cerr << "unable to detect a valid input at x" << i << endl;
             return false; // if no, let the user know then return
         } 
         else array_x[i] = stod(temp); // if yes, convert string to double and pass it to an element
-        
+       
         const char CR = 13; // carriage return
         infile.getline(temp, sizeof(temp), CR); // pass an y value into temp when meet the CR character
-
         // check if the input is a number
         if (is_number(temp) == false) { 
-            cerr << "input is not a number at y" << i << endl;
+            cerr << "unable to detect a valid input at y" << i << ".\nyour file may be missing a carriage return at the end of each line."  << endl;
             return false;
         }
         else array_y[i] = stod(temp);
